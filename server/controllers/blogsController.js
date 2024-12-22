@@ -55,7 +55,7 @@ const addBlog = async (req, res) => {
     const newblog = new Blog({
       title: req.body.title,
       content: req.body.content,
-      creatadBy: req.body.creatadBy,
+      // creatadBy: req.body.creatadBy,
     });
     const savedblog = await newblog.save();
     const id = savedblog._id;

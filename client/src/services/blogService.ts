@@ -1,7 +1,7 @@
 import { api } from "@/api/api";
-import { Blog } from "@/types/blogTypes";
+import { Blog, BlogWithoutId } from "@/types/blogTypes";
 
-export const createBlog = async (blog: Blog): Promise<Blog> => {
+export const createBlog = async (blog: BlogWithoutId): Promise<Blog> => {
   const { data } = await api.post("/blogs", blog);
   console.log(data);
 

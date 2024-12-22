@@ -1,6 +1,11 @@
 import { createBlog, getBlogs } from "@/services/blogService";
-import { Blog } from "@/types/blogTypes";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { BlogWithoutId } from "@/types/blogTypes";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 export function useBlogs() {
   return useQuery({
@@ -12,12 +17,13 @@ export function useBlogs() {
   });
 }
 
-export function useCreateBlog(blog: Blog) {
-  const mutation = useMutation({
-    mutationFn: () => createBlog(blog),
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
-    },
-  });
-}
+// export function useCreateBlog(blog: BlogWithoutId) {
+//   const queryClient = useQueryClient();
+//   return useMutation({
+//     mutationFn: () => createBlog(blog),
+//     onSuccess: () => {
+//       // Invalidate and refetch
+//       queryClient.invalidateQueries({ queryKey: ["blogs"] });
+//     },
+//   });
+// }
