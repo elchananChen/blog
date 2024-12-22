@@ -10,7 +10,6 @@ export const createBlog = async (blog: Blog): Promise<Blog> => {
 
 export const getBlogs = async (): Promise<Blog[]> => {
   const { data } = await api.get("/blogs/all");
-  
 
-  return data.;
+  return data.blogs;
 };
