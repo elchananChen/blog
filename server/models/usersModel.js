@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -24,13 +23,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    validate: {
-      validator: function (input) {
-        const phoneNumber = parsePhoneNumberFromString(input, this.country);
-        return phoneNumber && phoneNumber.isValid();
-      },
-      message: `phone number dosn't match country code`,
-    },
   },
   password: {
     type: String,
@@ -42,6 +34,12 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-//todo: virtual filed for fullName
+// to enable virtuales
+userSchema.set("toObject", { virtuals: true });
+userSchema.set("toJSON", { virtuals: true });
+
+userSchema.virtual("fullName").get(function () {
+  return `${this.firstName} ${this.lastName}`;
+});
 
 export default mongoose.model("User", userSchema);

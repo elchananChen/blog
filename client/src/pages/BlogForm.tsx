@@ -18,10 +18,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+// react query
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createBlog } from "@/services/blogService";
-import { BlogWithoutId } from "@/types/blogTypes";
+
+// router dom
 import { useNavigate } from "react-router-dom";
+
+// api
+import { createBlog } from "@/services/blogService";
+
+// types
+import { BlogWithoutId } from "@/types/blogTypes";
+import { useBlog } from "@/hook/useBlogs";
 
 // * Zod schema to validate the inputs
 const formSchema = z.object({
@@ -31,11 +39,21 @@ const formSchema = z.object({
   }),
 });
 
-function BlogForm() {
+interface Props {
+  isEdit: boolean; // false - add  ,  true - edit
+  id?: string;
+}
+
+function BlogForm({ isEdit, id }: Props) {
   // * react Query - to add blog
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { mutate, error, isPending } = useMutation({
+  if (id) {
+    const { data: blog } = useBlog(id);
+    console.log(blog);
+  }
+
+  const { mutate, isPending } = useMutation({
     mutationFn: (blog: BlogWithoutId) => createBlog(blog),
     onSuccess: () => {
       // Invalidate and refetch
@@ -43,7 +61,6 @@ function BlogForm() {
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
     },
     onError: (error) => {
-      // טיפול בשגיאות אם יש
       console.error("Error creating blog:", error);
     },
   });
@@ -60,7 +77,6 @@ function BlogForm() {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     // * create the blog
     mutate(values);
     isPending ? "Loading.." : setTimeout(() => navigate("/blogs"), 1000);

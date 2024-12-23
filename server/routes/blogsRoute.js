@@ -11,9 +11,7 @@ router.get("/all", blogController.getAllBlogs);
 router.get("/random/:num", blogController.getRandomeBlogs);
 
 // get blog by id
-router.get("/:id", blogController.getBlogById, (req, res) => {
-  res.json(res.blog);
-});
+router.get("/:id", blogController.getBlogById);
 
 //add blog
 router.post("/", /* validator.validateblog,*/ blogController.addBlog);

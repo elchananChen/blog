@@ -34,19 +34,16 @@ const getRandomeBlogs = async (req, res) => {
 };
 
 // get blog by id
-async function getBlogById(req, res, next) {
-  let blog;
+async function getBlogById(req, res) {
   try {
-    blog = await blog.findById(req.params.id);
+    const blog = await Blog.findById(req.params.id);
     if (blog === null) {
       return res.status(404).json({ massege: "id not found" });
     }
-    res.send({ blog });
+    res.send({ message: "seccess", blog });
   } catch (error) {
     return res.status(500).json({ massege: error.massege });
   }
-  res.blog = blog;
-  next();
 }
 
 //   add blog
