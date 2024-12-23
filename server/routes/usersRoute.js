@@ -19,7 +19,7 @@ router.get("/:id", userController.getUsereById, (req, res) => {
 router.get("/random/:num", userController.getRandomeUsers);
 
 // sign in
-router.post("/sign/:id", userController.signIn);
+router.post("/signIn", userController.signIn);
 
 // updete user by id
 router.patch("/:id", validator.verifyToken, userController.updateUser);

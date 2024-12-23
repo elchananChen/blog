@@ -96,26 +96,43 @@ const addUser = async (req, res) => {
 // sign in
 const signIn = async (req, res) => {
   try {
-    if (!req.body.password) {
-      return res.status(400).send({ massege: "password requiere" });
+    const { email, password } = req.body;
+
+    if (!password) {
+      console.log("pass");
+      return res
+        .status(400)
+        .send({ isValid: false, massege: "password require" });
     }
 
-    const id = req.params.id;
-    const user = await User.findById(id);
-    const hashedPassword = user.password;
-    const isMatch = await auth.signIn(req.body.password, hashedPassword);
+    const user = await User.find({ email }).select("+password");
+    // console.log(user);
+
+    const hashedPassword = user[0].password;
+    // console.log(hashedPassword);
+
+    const isMatch = await auth.signIn(password, hashedPassword);
+    console.log(isMatch);
 
     if (isMatch === false) {
       return res
         .status(401)
-        .send({ success: false, message: "Wrong password" });
+        .send({ isValid: false, message: "Wrong password" });
     }
+    console.log(isMatch);
+
+    const id = user[0].id;
 
     const token = await auth.creatToken(id, process.env.JWT_KEY, res);
 
-    res
-      .status(200)
-      .send({ success: true, message: "Login successfuly", token });
+    res.cookie("jwt", token, {
+      httpOnly: false,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 3600000 * 12,
+    });
+
+    res.status(200).send({ isValid: true, message: "Login successfuly", id });
   } catch (error) {
     console.log(error);
 

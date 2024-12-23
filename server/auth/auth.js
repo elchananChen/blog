@@ -21,12 +21,15 @@ const signIn = async (inputPassword, storedHashedPassword) => {
   try {
     //combine the input password with our secret key
     const combinedPassword = inputPassword + process.env.BCRYPT_KEY;
+    console.log(combinedPassword);
 
     //check if the combination of the two matches our stored password
     const isMatch = await bcrypt.compare(
       combinedPassword,
       storedHashedPassword
     );
+    console.log("baba", isMatch);
+
     return isMatch;
   } catch (error) {
     console.log(`server error: ${error}`);
@@ -39,7 +42,7 @@ async function creatToken(userID, jwtKey, res) {
   const token = jwt.sign({ userID }, jwtKey, { expiresIn: "1h" });
   res.cookie("jwt", token, {
     httpOnly: true,
-    secure:false,
+    secure: false,
     maxAge: 60 * 60 * 1000,
     sameSite: "strict",
   });

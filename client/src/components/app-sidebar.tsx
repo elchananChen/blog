@@ -85,8 +85,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: BookOpenTextIcon,
       },
       {
+        name: "add blog",
+        url: "/addBlog",
+        icon: BookOpenTextIcon,
+      },
+      {
         name: "contect us",
         url: "/contact",
+        icon: PhoneCallIcon,
+      },
+      {
+        name: "log in",
+        url: "/auth/logIn",
+        icon: PhoneCallIcon,
+      },
+      {
+        name: "sign up",
+        url: "/auth/signUp",
         icon: PhoneCallIcon,
       },
     ],

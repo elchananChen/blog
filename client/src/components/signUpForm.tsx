@@ -3,13 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { Link } from "react-router-dom";
 
 const countries = [
   { initials: "IL", country: "Israel" },
+  { initials: "RU", country: "Russia" },
+  { initials: "US", country: "United States" },
   { initials: "HU", country: "Hungary" },
   { initials: "RO", country: "Romania" },
-  { initials: "US", country: "United States" },
-  { initials: "RU", country: "Russia" },
 ];
 
 function SignUpForm({
@@ -26,10 +27,6 @@ function SignUpForm({
       </div>
       <div className="grid gap-6">
         <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
-        </div>
-        <div className="grid gap-2">
           <Label htmlFor="firstName">first Name:</Label>
           <Input
             id="firstName"
@@ -44,6 +41,24 @@ function SignUpForm({
             id="lastName"
             type="text"
             placeholder="will display to others"
+            required
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="will display only by your permition"
+            required
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="phone">phone</Label>
+          <Input
+            id="phone"
+            type="phone"
+            placeholder="will display only by your permition"
             required
           />
         </div>
@@ -65,17 +80,13 @@ function SignUpForm({
           </div>
         </RadioGroup>
         <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
-        </div>
-        <div className="grid gap-2">
           <div className="flex items-center">
             <Label htmlFor="password">Password</Label>
           </div>
           <Input id="password" type="password" required />
         </div>
         <Button type="submit" className="w-full">
-          Login
+          SignUp
         </Button>
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
           <span className="relative z-10 bg-background px-2 text-muted-foreground">
@@ -85,13 +96,13 @@ function SignUpForm({
       </div>
       <div className="text-center text-sm">
         Don&apos;t have an account?{" "}
-        <a href="#" className="underline underline-offset-4">
-          Sign up
-        </a>
+        <Link to={"/auth/logIn"} className="underline underline-offset-4">
+          Log In
+        </Link>
         <span> Or continue as </span>
-        <a href="#" className="underline underline-offset-4">
+        <Link to={"/"} className="underline underline-offset-4">
           Guest
-        </a>
+        </Link>
       </div>
     </form>
   );
